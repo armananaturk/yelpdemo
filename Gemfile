@@ -10,6 +10,7 @@ gem 'sqlite3'
 
 end
 
+gem 'devise'
 gem "mini_magick"
 gem "fog"
 gem "figaro"
