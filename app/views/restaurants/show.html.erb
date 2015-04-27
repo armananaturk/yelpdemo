@@ -33,7 +33,7 @@
 <%else%>
 
 <% @reviews.each do |review| %>
-  <div class="star rating"></div>
+  <div class="star-rating" data-score= <%= review.rating %> ></div>
   <p><%= review.comment %></p>
 
  <%end%>
@@ -48,7 +48,11 @@
 <%= link_to 'Back', restaurants_path, class: "btn btn-link" %>
 
 <script>
-  $('.star-rating').raty({path: 'https://s3.amazonaws.com/locateburgerjoint/stars'
+  $('.star-rating').raty({path: 'https://s3.amazonaws.com/locateburgerjoint/stars',
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    }
   });
 </script>
 
