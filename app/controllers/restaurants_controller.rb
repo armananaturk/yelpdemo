@@ -1,6 +1,7 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :check_user, except: [:index, :show]
   # GET /restaurants
   # GET /restaurants.json
   def index
@@ -48,7 +49,7 @@ end
   def update
     respond_to do |format|
       if @restaurant.update(restaurant_params)
-        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully updated.' }
+        format.html { redirect_to restaurant_path(@restaurant), notice: 'Restaurant was successfully updated.' }
         format.json { render :show, status: :ok, location: @restaurant }
       else
         format.html { render :edit }
@@ -66,6 +67,12 @@ end
       format.json { head :no_content }
     end
   end
+
+  def check_user
+  unless current_user.admin?
+    redirect_to root_url, alert: "Sorry, only admins can do that!"
+  end
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.
